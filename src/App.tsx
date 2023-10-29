@@ -6,11 +6,11 @@ import {AddItemForm} from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@mui/material";
 import {Menu} from "@mui/icons-material";
 
-export type filterType = 'all' | 'completed' | 'active';
-type TodolistType = {
+export type FilterType = 'all' | 'completed' | 'active';
+export type TodolistType = {
     id: string
     title: string
-    filter: filterType
+    filter: FilterType
 }
 type TasksStateType = {
     [key: string]: Array<Task>
@@ -31,6 +31,10 @@ function App() {
             {id: v1(), title: 'Milk', isDone: true},
         ]
     })
+    const [todolists, setTodolists] = useState<Array<TodolistType>>([
+        {id: todolistId1, title: 'What to learn', filter: 'active'},
+        {id: todolistId2, title: 'What to buy', filter: 'completed'}
+    ]);
 
     const removeTask = (id: string, todolistId: string) => {
         let tasks = tasksObj[todolistId];
@@ -59,7 +63,7 @@ function App() {
             setTasksObj({...tasksObj});
         }
     }
-    const changeFilter = (value: filterType, todolistId: string) => {
+    const changeFilter = (value: FilterType, todolistId: string) => {
         let todolist = todolists.find(tl => tl.id === todolistId);
         if (todolist) {
             todolist.filter = value;
@@ -81,11 +85,6 @@ function App() {
             setTodolists([...todolists]);
         }
     }
-
-    const [todolists, setTodolists] = useState<Array<TodolistType>>([
-        {id: todolistId1, title: 'What to learn', filter: 'active'},
-        {id: todolistId2, title: 'What to buy', filter: 'completed'}
-    ]);
 
     const addTodolist = (title: string) => {
         let todolist: TodolistType = {
